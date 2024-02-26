@@ -1,0 +1,18 @@
+% fixing chromosome pseuedocode:
+input:
+parentChromosom
+childChromosom
+output:
+fixedChildChromosome
+start:
+trueBitsCont = calculate the number of hidden message bit using the parentChromosom
+fakeBitsCont = calculate the number of hidden message bit using the childChromosom
+while trueBitsCont~=fakeBitsCont
+    select random metameric from child
+    if fakeBitsCont>trueBitsCont   
+        decrement the number of pixels in this metameric
+    elseif fakeBitsCont<trueBitsCont
+        increment the number of pixels in this metameric
+    end if
+    fakeBitsCont = re-calculate the number of hidden message bit using the childChromosom
+end while

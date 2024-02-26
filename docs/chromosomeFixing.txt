@@ -1,0 +1,58 @@
+% Chromosome fixing pseudocode 
+Input: 
+Chromosome
+trueMessgeBitsNumber
+
+OutPut: 
+fixedChromosome
+
+start:
+counter = 1
+subProcedure: count the fake bits number
+{
+for each chromosome metameric
+	bitplanesNumber = get the number of bits in this metameric bitplane
+	numberOfPixels = numberOfPixels in this metameric
+	bitsCount(counter) = numberOfPixels * bitplanesNumber
+	counter ++ 
+end
+fakeBitsNumber = sum(bitsCount)
+}
+while fakeBitsNumber ~= trueMessgeBitsNumber
+	if fakeBitsNumber>trueMessgeBitsNumber
+		difference = fakeBitsNumber-trueMessgeBitsNumber
+		meta = select random metameric
+		pixelNumber = meta.(get pixels number)
+		bp = meta.(get the bitplanes)
+		numberOfBP = meta.(get the number bitplanes bits)
+		numberOfPixelsToDelete = ceil(difference/numberOfBP)
+		newPixelsNum = pixelNumber - numberOfPixelsToDelete
+		if newPixelsNum<1
+			newPixelsNum = 1
+		end
+		else
+		difference = trueMessgeBitsNumber-fakeBitsNumber
+		meta = select random metameric
+		pixelNumber = meta.(get pixels number)
+		bp = meta.(get the bitplanes)
+		numberOfBP = meta.(get the number bitplanes bits)
+		numberOfPixelsToAdd = ceil(difference/numberOfBP)
+		newPixelsNum = pixelNumber + numberOfPixelsToAdd
+	end [if_fakeBitsNumber>trueMessgeBitsNumber]
+	fakeBitsNumber = call subProcedure
+	if fakeBitsNumber still greater than trueMessgeBitsNumber
+		if fakeBitsNumber - trueMessgeBitsNumber ==1
+			if numberOfBP == 2
+				break_the loop and ignore the last bitplane
+			end
+		elseif fakeBitsNumber - trueMessgeBitsNumber <=2
+			if numberOfBP == 3
+				break_the loop and ignore the last bitplane
+			end
+		elseif fakeBitsNumber - trueMessgeBitsNumber <=3
+			if numberOfBP == 4
+				break_the loop and ignore the last bitplane
+			end
+		end	
+	end [if_fakeBitsNumber still greater than trueMessgeBitsNumber]
+end while

@@ -1,0 +1,28 @@
+function child = fixChrom(child,chrom)
+% count the number of message bits
+for m = 1:length(chrom)
+    meta = chrom(m);
+    numberOfPixels = chrom(end);
+    bitPlanes = meta(6);
+    binBitPlanes = dec2bin(bitPlanes,8);
+    numberOfBits = length(find(binBitPlanes=='1'));
+    numberOfBits(m) = numberOfPixels*numberOfBits;
+end
+trueMesgBitsNum = sum(numberOfBits);
+% count the number of message bits of the child chromosome
+for m = 1:length(child)
+    meta = child(m);
+    numberOfPixels = child(end);
+    bitPlanes = meta(6);
+    binBitPlanes = dec2bin(bitPlanes,8);
+    numberOfBits = length(find(binBitPlanes=='1'));
+    numberOfBits(m) = numberOfPixels*numberOfBits;
+end
+fakeMesgBitsNum = sum(numberOfBits);
+% start fixing
+pixNumLB = 1;
+while fakeMesgBitsNum~=trueMesgBitsNum
+    if fakeMesgBitsNum>trueMesgBitsNum
+        randomMetaInd = randi(length(child));
+        randomMeta = child(randomMetaInd);
+        pixNum = 

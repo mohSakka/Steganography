@@ -1,0 +1,65 @@
+// crossover pseudocode
+Input:
+A // first chromosome
+B // second chromosome
+crossRatio
+trueBitsNum
+
+Output:
+C //first child
+D //second child
+
+Start:
+CLength = length(A)
+DLength = length(B)
+commonPartMetas = find A and B metamerics that have the same blocks indices
+newA = A.delete(commonPartMetas)
+newB = B.delete(commonPartMetas)
+C = C.append(commonPartMetas that belong A)
+D = D.append(commonPartMetas that belong B)
+remainedCLength = CLength - length(C)
+remainedDLength = DLength - length(D)
+// generate the remained part of C
+Aratio = 1 - crossRatio
+AmetasNum = ceil(Aratio * length(remainedCLength))
+Ametas = newA(randperm(length(newA),AmetasNum))
+C = C.append( Ametas )
+newA = newA.delete(Ametas)
+numberOfBits = computeTheNumberOfBits(C)
+while numberOfBits~=trueBitsNum
+	if trueBitsNum>numberOfBits
+		differ = trueBitsNum - numberOfBits
+		if ~isempty(newB)
+			metaB = select random meta from newB
+			pixNumNeeded = compute the number of pixels needed from metaB to make differ = 0
+			blockSize = findBlockSize(metaB)
+			pixThresh = blockSize(1)*blockSize(2)
+			if pixNumNeeded>pixThresh
+				pixNumNeeded = pixThresh
+			end
+			metaB.pixelNumber =  pixNumNeeded
+			C = C.append(metaB)
+			newB = newB.delete(metaB)
+			numberOfBits = computeTheNumberOfBits(C)
+		else if isempty(newB)
+			 apply the previous procedure on A instead of B
+		end
+	else if numberOfBits>trueBitsNum
+		differ = numberOfBits - trueBitsNum
+		lastCMeta = get the last metameric from C
+		pixNumNeeded = compute the number of pixels needed from lastCMeta to make differ = 0
+		if pixNumNeeded>lastCMeta.pixNum
+			C = C.delete(lastCMeta)
+		else
+			lastCMeta.pixNum = lastCMeta.pixNum - pixNumNeeded
+		end
+		C(end) = lastCMeta
+		numberOfBits = computeTheNumberOfBits(C)
+	end
+end
+
+		
+		
+		
+		
+
